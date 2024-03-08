@@ -6,23 +6,21 @@ import { required, numeric } from '@vuelidate/validators'
 const initialState = {
   apiKey: '',
   tableId: ''
-  // select: null,
-  // checkbox: null
 }
 
 const state = reactive({
   ...initialState
 })
 
-// const items = ['Item 1', 'Item 2', 'Item 3', 'Item 4']
+const snackbarState = reactive({
+  isSnackbarShown: false,
+  snackbarText: '',
+  type: 'success'
+})
 
 const rules = {
   apiKey: { required },
   tableId: { required, numeric }
-
-  // select: { required },
-  // items: { required },
-  // checkbox: { required }
 }
 
 const v$ = useVuelidate(rules, state)
@@ -34,12 +32,20 @@ const clear = () => {
     state[key] = value
   }
 }
+
 const set = async () => {
   const isValid = await v$.value.$validate()
 
   if (isValid) {
-    debugger
+    saveToSession()
   }
+}
+
+const saveToSession = () => {
+  $cookies.set('password', state, 0) // 0 means session cookie
+
+  snackbarState.snackbarText = 'API key was successfully saved'
+  snackbarState.isSnackbarShown = true
 }
 </script>
 
@@ -71,10 +77,14 @@ const set = async () => {
         </v-col>
 
         <v-col cols="3" class="d-flex justify-space-around">
-          <v-btn size="x-large" color="indigo-darken-2" class="me-4" @click="set"> Set </v-btn>
+          <v-btn size="x-large" color="indigo-darken-2" class="me-4" @click="set"> Connect </v-btn>
           <v-btn size="x-large" variant="outlined" color="danger" @click="clear"> Clear </v-btn>
         </v-col>
       </v-row>
+
+      <v-snackbar v-model="snackbarState.isSnackbarShown" :color="snackbarState.type">
+        {{ snackbarState.snackbarText }}
+      </v-snackbar>
     </v-container>
   </form>
 </template>

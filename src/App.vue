@@ -1,5 +1,5 @@
 <script setup>
-import SetToken from '@/views/SetToken.vue'
+import SetToken from '@/components/SetToken.vue'
 </script>
 
 <template>
