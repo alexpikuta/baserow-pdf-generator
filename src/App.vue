@@ -1,9 +1,9 @@
 <script setup>
-import SetToken from '@/components/SetToken.vue'
+import TokenView from '@/components/TokenView.vue'
 </script>
 
 <template>
-  <SetToken />
+  <TokenView />
   <!-- <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 

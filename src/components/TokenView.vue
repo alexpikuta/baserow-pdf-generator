@@ -1,21 +1,24 @@
 <script setup>
-import { reactive } from 'vue'
+import { reactive, onMounted } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { required, numeric } from '@vuelidate/validators'
+import { useDataStore } from '@/stores/dataStore'
+
+const dataStore = useDataStore()
 
 const initialState = {
   apiKey: '',
   tableId: ''
 }
 
-const state = reactive({
+const formState = reactive({
   ...initialState
 })
 
 const snackbarState = reactive({
   isSnackbarShown: false,
   snackbarText: '',
-  type: 'success'
+  typeColor: 'success'
 })
 
 const rules = {
@@ -23,13 +26,13 @@ const rules = {
   tableId: { required, numeric }
 }
 
-const v$ = useVuelidate(rules, state)
+const v$ = useVuelidate(rules, formState)
 
 const clear = () => {
   v$.value.$reset()
 
   for (const [key, value] of Object.entries(initialState)) {
-    state[key] = value
+    formState[key] = value
   }
 }
 
@@ -37,16 +40,43 @@ const set = async () => {
   const isValid = await v$.value.$validate()
 
   if (isValid) {
-    saveToSession()
+    fetchAndSave()
   }
 }
 
-const saveToSession = () => {
-  $cookies.set('password', state, 0) // 0 means session cookie
+const fetchAndSave = async () => {
+  await dataStore.fetchData(formState)
 
+  if (!dataStore.error) {
+    $cookies.set('credentials', formState, 0)
+  }
+
+  showNotification()
+}
+
+const showNotification = () => {
+  if (dataStore.error) {
+    snackbarState.snackbarText = dataStore.error
+    snackbarState.isSnackbarShown = true
+    snackbarState.typeColor = 'red-darken-2'
+
+    return
+  }
   snackbarState.snackbarText = 'API key was successfully saved'
   snackbarState.isSnackbarShown = true
 }
+
+const getCredentialsFromStore = () => {
+  const credentials = $cookies.get('credentials')
+
+  if (credentials?.apiKey) {
+    formState.apiKey = credentials.apiKey
+  }
+}
+
+onMounted(() => {
+  getCredentialsFromStore()
+})
 </script>
 
 <template>
@@ -55,7 +85,7 @@ const saveToSession = () => {
       <v-row>
         <v-col cols="5">
           <v-text-field
-            v-model="state.apiKey"
+            v-model="formState.apiKey"
             :error-messages="v$.apiKey.$errors.map((e) => e.$message)"
             :counter="1"
             label="API key"
@@ -67,7 +97,7 @@ const saveToSession = () => {
 
         <v-col cols="4">
           <v-text-field
-            v-model="state.tableId"
+            v-model="formState.tableId"
             :error-messages="v$.tableId.$errors.map((e) => e.$message)"
             label="Table ID"
             required
@@ -82,7 +112,7 @@ const saveToSession = () => {
         </v-col>
       </v-row>
 
-      <v-snackbar v-model="snackbarState.isSnackbarShown" :color="snackbarState.type">
+      <v-snackbar v-model="snackbarState.isSnackbarShown" :color="snackbarState.typeColor">
         {{ snackbarState.snackbarText }}
       </v-snackbar>
     </v-container>
