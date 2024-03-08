@@ -1,13 +1,14 @@
 <script setup>
-import TokenView from '@/components/TokenView.vue'
 import { useDataStore } from '@/stores/dataStore'
+import TokenView from '@/components/TokenView.vue'
+import MainView from '@/components/MainView.vue'
 
 const dataStore = useDataStore()
 </script>
 
 <template>
   <TokenView />
-
+  <MainView />
   <br />
   <pre>
    {{ dataStore.data }}

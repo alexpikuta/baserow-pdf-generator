@@ -91,19 +91,20 @@ onMounted(() => {
   <form>
     <v-container>
       <v-row>
-        <v-col cols="5">
+        <v-col cols="12" md="5">
           <v-text-field
             v-model="formState.apiKey"
             :error-messages="v$.apiKey.$errors.map((e) => e.$message)"
             :counter="1"
             label="API key"
+            type="password"
             required
             @input="v$.apiKey.$touch"
             @blur="v$.apiKey.$touch"
           />
         </v-col>
 
-        <v-col cols="4">
+        <v-col cols="12" md="7" class="d-flex ga-5">
           <v-text-field
             v-model="formState.tableId"
             :error-messages="v$.tableId.$errors.map((e) => e.$message)"
@@ -112,10 +113,8 @@ onMounted(() => {
             @input="v$.tableId.$touch"
             @blur="v$.tableId.$touch"
           />
-        </v-col>
 
-        <v-col cols="3" class="d-flex justify-space-around">
-          <v-btn size="x-large" color="indigo-darken-2" class="me-4" @click="set"> Connect </v-btn>
+          <v-btn size="x-large" color="indigo-darken-2" @click="set"> Connect </v-btn>
           <v-btn size="x-large" variant="outlined" color="danger" @click="clear"> Clear </v-btn>
         </v-col>
       </v-row>

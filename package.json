@@ -16,6 +16,7 @@
     "pinia": "^2.1.7",
     "vue": "^3.3.11",
     "vue-cookies": "^1.8.3",
+    "vue-draggable-resizable": "^3.0.0",
     "vue-router": "^4.2.5",
     "vuelidate": "^0.7.7",
     "vuetify": "^3.4.10"
