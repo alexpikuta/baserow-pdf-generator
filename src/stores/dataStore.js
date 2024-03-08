@@ -8,11 +8,10 @@ export const useDataStore = defineStore({
     error: null
   }),
   actions: {
-    async fetchData() {
+    async fetchData(formData) {
       try {
         this.loading = true
-        const { apiKey, tableId } = $cookies.get('credentials')
-        //   debugger
+        const { apiKey, tableId } = formData
         const response = await fetch(`https://api.baserow.io/api/database/rows/table/${tableId}/`, {
           headers: {
             Authorization: `Token ${apiKey}`,
@@ -25,8 +24,8 @@ export const useDataStore = defineStore({
         if (data.error) {
           throw new Error(data.detail)
         }
-        debugger
-        this.data = data
+
+        this.data = data.results
       } catch (error) {
         this.error = error.message
       } finally {

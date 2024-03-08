@@ -40,13 +40,16 @@ const set = async () => {
   const isValid = await v$.value.$validate()
 
   if (isValid) {
-    fetchAndSave()
+    await fetchData()
+    saveCredentials()
   }
 }
 
-const fetchAndSave = async () => {
+const fetchData = async () => {
   await dataStore.fetchData(formState)
+}
 
+const saveCredentials = () => {
   if (!dataStore.error) {
     $cookies.set('credentials', formState, 0)
   }
@@ -69,13 +72,18 @@ const showNotification = () => {
 const getCredentialsFromStore = () => {
   const credentials = $cookies.get('credentials')
 
-  if (credentials?.apiKey) {
-    formState.apiKey = credentials.apiKey
+  if (credentials) {
+    formState.apiKey = credentials?.apiKey
+    formState.tableId = credentials?.tableId
+
+    return true
   }
 }
 
 onMounted(() => {
-  getCredentialsFromStore()
+  if (getCredentialsFromStore()) {
+    fetchData(formState)
+  }
 })
 </script>
 
