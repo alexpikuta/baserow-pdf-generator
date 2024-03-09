@@ -1,13 +1,29 @@
 <script setup>
-import VueDraggableResizable from 'vue-draggable-resizable'
+import DraggableItem from '@/components/DraggableItem.vue'
 import { ref } from 'vue'
 
-const element = ref({
-  x: 20,
-  y: 20,
-  width: 'auto',
-  height: 'auto'
-})
+const fields = ref([
+  {
+    x: 20,
+    y: 20,
+    width: 'auto',
+    height: 'auto',
+    grid: 10,
+    title: 'Field #1'
+  },
+  {
+    x: 20,
+    y: 20,
+    width: 'auto',
+    height: 'auto',
+    grid: 10,
+    title: 'Field #2'
+  }
+])
+
+const updateField = (index, updatedField) => {
+  fields.value.splice(index, 1, updatedField)
+}
 </script>
 
 <template>
@@ -22,18 +38,13 @@ const element = ref({
             }"
             :aspect-ratio="9 / 16"
           >
-            <vue-draggable-resizable
-              :parent="true"
-              :x="element.x"
-              :y="element.y"
-              :w="element.width"
-              :h="element.height"
-              :grid="[20, 20]"
-            >
-              <span>
-                Hello! I'm a flexible component. You can drag me around and you can resize me.
-              </span>
-            </vue-draggable-resizable>
+            <DraggableItem
+              v-for="(field, index) in fields"
+              :key="index"
+              :index="index"
+              :options="field"
+              :updateField="updateField"
+            />
           </v-responsive>
         </div>
       </v-col>
