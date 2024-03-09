@@ -27,29 +27,23 @@ const updateField = (index, updatedField) => {
 </script>
 
 <template>
-  <v-container>
-    <v-row>
-      <v-col>
-        <div class="bg-grey-lighten-2">
-          <v-responsive
-            class="canvas"
-            :style="{
-              backgroundSize: '20px 20px, 20px 20px'
-            }"
-            :aspect-ratio="9 / 16"
-          >
-            <DraggableItem
-              v-for="(field, index) in fields"
-              :key="index"
-              :index="index"
-              :options="field"
-              :updateField="updateField"
-            />
-          </v-responsive>
-        </div>
-      </v-col>
-    </v-row>
-  </v-container>
+  <div class="bg-grey-lighten-2">
+    <v-responsive
+      class="canvas"
+      :style="{
+        backgroundSize: '20px 20px, 20px 20px'
+      }"
+      :aspect-ratio="9 / 16"
+    >
+      <DraggableItem
+        v-for="(field, index) in fields"
+        :key="index"
+        :index="index"
+        :options="field"
+        :updateField="updateField"
+      />
+    </v-responsive>
+  </div>
 </template>
 
 <style>

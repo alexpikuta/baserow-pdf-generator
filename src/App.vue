@@ -1,7 +1,7 @@
 <script setup>
 import { useDataStore } from '@/stores/dataStore'
-import TokenView from '@/components/TokenView.vue'
-import MainView from '@/components/MainView.vue'
+import TokenView from '@/views/TokenView.vue'
+import MainView from '@/views/MainView.vue'
 
 const dataStore = useDataStore()
 </script>
