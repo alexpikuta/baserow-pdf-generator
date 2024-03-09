@@ -18,7 +18,7 @@ const formState = reactive({
 const snackbarState = reactive({
   isSnackbarShown: false,
   snackbarText: '',
-  typeColor: 'success'
+  typeColor: ''
 })
 
 const rules = {
@@ -46,7 +46,7 @@ const set = async () => {
 }
 
 const fetchData = async () => {
-  await dataStore.fetchData(formState)
+  await dataStore.getFields(formState)
 }
 
 const saveCredentials = () => {
@@ -67,6 +67,7 @@ const showNotification = () => {
   }
   snackbarState.snackbarText = 'API key was successfully saved'
   snackbarState.isSnackbarShown = true
+  snackbarState.typeColor = 'success'
 }
 
 const getCredentialsFromStore = () => {

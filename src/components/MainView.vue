@@ -8,7 +8,7 @@ const fields = ref([
     y: 20,
     width: 'auto',
     height: 'auto',
-    grid: 10,
+    grid: 20,
     title: 'Field #1'
   },
   {
@@ -16,7 +16,7 @@ const fields = ref([
     y: 20,
     width: 'auto',
     height: 'auto',
-    grid: 10,
+    grid: 20,
     title: 'Field #2'
   }
 ])

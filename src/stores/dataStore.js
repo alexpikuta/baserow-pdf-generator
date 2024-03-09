@@ -1,31 +1,37 @@
 import { defineStore } from 'pinia'
+import { getRows, getFields } from '@/api/data.api'
 
 export const useDataStore = defineStore({
   id: 'dataStore',
   state: () => ({
-    data: null,
+    fields: null,
+    rows: null,
     loading: false,
     error: null
   }),
   actions: {
-    async fetchData(formData) {
+    async getFields(formData) {
       try {
+        this.error = null
         this.loading = true
-        const { apiKey, tableId } = formData
-        const response = await fetch(`https://api.baserow.io/api/database/rows/table/${tableId}/`, {
-          headers: {
-            Authorization: `Token ${apiKey}`,
-            'Content-Type': 'application/json'
-          }
-        })
 
-        const data = await response.json()
+        const response = await getFields(formData)
 
-        if (data.error) {
-          throw new Error(data.detail)
-        }
+        this.fields = response
+      } catch (error) {
+        this.error = error.message
+      } finally {
+        this.loading = false
+      }
+    },
+    async fetchRows(formData) {
+      try {
+        this.error = null
+        this.loading = true
 
-        this.data = data.results
+        const response = await getRows(formData)
+
+        this.rows = response.results
       } catch (error) {
         this.error = error.message
       } finally {

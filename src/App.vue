@@ -11,7 +11,7 @@ const dataStore = useDataStore()
   <MainView />
   <br />
   <pre>
-   {{ dataStore.data }}
+   {{ dataStore.fields }}
   </pre>
   <!-- <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
