@@ -1,5 +1,6 @@
 <script setup>
 import CanvasView from '@/views/CanvasView.vue'
+import FieldsView from '@/views/FieldsView.vue'
 </script>
 
 <template>
@@ -7,6 +8,9 @@ import CanvasView from '@/views/CanvasView.vue'
     <v-row>
       <v-col>
         <CanvasView />
+      </v-col>
+      <v-col cols="3">
+        <FieldsView />
       </v-col>
     </v-row>
   </v-container>
