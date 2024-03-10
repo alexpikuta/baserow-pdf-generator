@@ -45,12 +45,18 @@ export const useDataStore = defineStore({
 
       if (index === -1) {
         this.selectedFields.push(fieldId)
-        this.createDraggableFields(fieldId)
+        this.composeDraggableFields(fieldId)
       } else {
         this.selectedFields.splice(index, 1)
+
+        // Remove item from draggableIndex
+        const draggableIndex = this.draggableFields.findIndex((field) => {
+          return field.id === fieldId
+        })
+        this.draggableFields.splice(draggableIndex, 1)
       }
     },
-    createDraggableFields(fieldId) {
+    composeDraggableFields(fieldId) {
       this.draggableFields.push({
         id: fieldId,
         x: 20,
