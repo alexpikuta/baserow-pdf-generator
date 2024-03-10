@@ -1,28 +1,14 @@
 <script setup>
+import { computed } from 'vue'
 import DraggableItem from '@/components/DraggableItem.vue'
-import { ref } from 'vue'
+import { useDataStore } from '@/stores/dataStore'
 
-const fields = ref([
-  {
-    x: 20,
-    y: 20,
-    width: 'auto',
-    height: 'auto',
-    grid: 20,
-    title: 'Field #1'
-  },
-  {
-    x: 20,
-    y: 20,
-    width: 'auto',
-    height: 'auto',
-    grid: 20,
-    title: 'Field #2'
-  }
-])
+const dataStore = useDataStore()
+
+const draggableFields = computed(() => dataStore.draggableFields)
 
 const updateField = (index, updatedField) => {
-  fields.value.splice(index, 1, updatedField)
+  draggableFields.value.splice(index, 1, updatedField)
 }
 </script>
 
@@ -36,7 +22,7 @@ const updateField = (index, updatedField) => {
       :aspect-ratio="9 / 16"
     >
       <DraggableItem
-        v-for="(field, index) in fields"
+        v-for="(field, index) in draggableFields"
         :key="index"
         :index="index"
         :options="field"

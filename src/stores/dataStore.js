@@ -6,6 +6,7 @@ export const useDataStore = defineStore({
   state: () => ({
     fields: null,
     selectedFields: [],
+    draggableFields: [],
     rows: null,
     loading: false,
     error: null
@@ -44,9 +45,21 @@ export const useDataStore = defineStore({
 
       if (index === -1) {
         this.selectedFields.push(fieldId)
+        this.createDraggableFields(fieldId)
       } else {
         this.selectedFields.splice(index, 1)
       }
+    },
+    createDraggableFields(fieldId) {
+      this.draggableFields.push({
+        id: fieldId,
+        x: 20,
+        y: 20,
+        width: 'auto',
+        height: 'auto',
+        grid: 20,
+        title: this.fields.find((f) => f.id === fieldId).name
+      })
     }
   }
 })

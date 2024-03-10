@@ -14,5 +14,4 @@ const fields = computed(() => {
   <v-list>
     <FieldItem v-for="field in fields" :key="field.id" :field="field" />
   </v-list>
-  <pre>{{ fields }}</pre>
 </template>
