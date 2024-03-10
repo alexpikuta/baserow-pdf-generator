@@ -5,6 +5,7 @@ export const useDataStore = defineStore({
   id: 'dataStore',
   state: () => ({
     fields: null,
+    selectedFields: [],
     rows: null,
     loading: false,
     error: null
@@ -36,6 +37,15 @@ export const useDataStore = defineStore({
         this.error = error.message
       } finally {
         this.loading = false
+      }
+    },
+    toggleSelection(fieldId) {
+      const index = this.selectedFields.indexOf(fieldId)
+
+      if (index === -1) {
+        this.selectedFields.push(fieldId)
+      } else {
+        this.selectedFields.splice(index, 1)
       }
     }
   }

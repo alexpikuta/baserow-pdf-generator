@@ -1,27 +1,18 @@
 <script setup>
-import { ref } from 'vue'
+import { computed } from 'vue'
+import { useDataStore } from '@/stores/dataStore'
+import FieldItem from '@/components/FieldItem.vue'
 
-const items = ref([
-  {
-    title: 'Item #2',
-    value: 2,
-    props: {
-      appendIcon: 'mdi-close',
-      color: 'primary',
-      variant: 'tonal'
-    }
-  },
-  {
-    title: 'Item #3',
-    value: 3,
-    props: {
-      color: 'primary',
-      variant: 'tonal'
-    }
-  }
-])
+const dataStore = useDataStore()
+
+const fields = computed(() => {
+  return dataStore.fields
+})
 </script>
 
 <template>
-  <v-list :items="items"></v-list>
+  <v-list>
+    <FieldItem v-for="field in fields" :key="field.id" :field="field" />
+  </v-list>
+  <pre>{{ fields }}</pre>
 </template>
