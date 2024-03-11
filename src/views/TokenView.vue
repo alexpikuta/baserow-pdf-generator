@@ -115,8 +115,8 @@ onMounted(() => {
             @blur="v$.tableId.$touch"
           />
 
-          <v-btn size="x-large" color="indigo-darken-2" @click="set"> Connect </v-btn>
-          <v-btn size="x-large" variant="outlined" color="danger" @click="clear"> Clear </v-btn>
+          <v-btn size="x-large" color="indigo-darken-2" @click="set">Connect</v-btn>
+          <v-btn size="x-large" variant="outlined" color="danger" @click="clear">Clear</v-btn>
         </v-col>
       </v-row>
 

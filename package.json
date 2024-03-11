@@ -14,6 +14,8 @@
     "@mdi/font": "^7.4.47",
     "@vuelidate/core": "^2.0.3",
     "@vuelidate/validators": "^2.0.4",
+    "downloadjs": "^1.4.7",
+    "pdf-lib": "^1.17.1",
     "pinia": "^2.1.7",
     "vue": "^3.3.11",
     "vue-cookies": "^1.8.3",
