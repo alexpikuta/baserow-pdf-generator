@@ -3,6 +3,7 @@ import { reactive, onMounted } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { required, numeric } from '@vuelidate/validators'
 import { useDataStore } from '@/stores/dataStore'
+import messages from '@/helpers/messages'
 
 const dataStore = useDataStore()
 
@@ -65,7 +66,7 @@ const showNotification = () => {
 
     return
   }
-  snackbarState.snackbarText = 'API key was successfully saved'
+  snackbarState.snackbarText = messages.credentialsIsSaved
   snackbarState.isSnackbarShown = true
   snackbarState.typeColor = 'success'
 }

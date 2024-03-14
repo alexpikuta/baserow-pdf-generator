@@ -26,10 +26,7 @@ async function getRows(credentials) {
   const apiKey = credentials?.apiKey || getCredentials().apiKey
   const tableId = credentials?.tableId || getCredentials().tableId
 
-  const response = await fetch(
-    `${BASE_URL}rows/table/${tableId}/?user_field_names=true`,
-    getHeaders(apiKey)
-  )
+  const response = await fetch(`${BASE_URL}rows/table/${tableId}/`, getHeaders(apiKey))
 
   const data = await response.json()
   if (data.error) {
