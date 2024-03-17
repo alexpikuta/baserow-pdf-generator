@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { getRows, getFields } from '@/api/data.api'
 import { defaultFieldOptions } from '@/helpers/constants'
+import messages from '@/helpers/messages'
 
 export const useDataStore = defineStore({
   id: 'dataStore',
@@ -24,7 +25,7 @@ export const useDataStore = defineStore({
 
         this.fields = response
       } catch (error) {
-        this.error = error.message
+        this.error = error.message || messages.commonError
       } finally {
         this.loading = false
       }
@@ -37,7 +38,7 @@ export const useDataStore = defineStore({
         const response = await getRows(formData)
         this.rows = response.results
       } catch (error) {
-        this.error = error.message
+        this.error = error.message || messages.commonError
       } finally {
         this.loading = false
       }
@@ -51,11 +52,16 @@ export const useDataStore = defineStore({
       } else {
         this.selectedFields.splice(index, 1)
 
-        // Remove item from draggableIndex
+        // Remove item from draggableFields
         const draggableIndex = this.draggableFields.findIndex((field) => {
           return field.id === fieldId
         })
         this.draggableFields.splice(draggableIndex, 1)
+
+        // Turn off config view if it's field was deselected
+        if (fieldId === this.configurableId) {
+          this.configurableId = 0
+        }
       }
     },
     composeDraggableFields(fieldId) {

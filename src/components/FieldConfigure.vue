@@ -14,17 +14,20 @@ const changeFontSize = (diff) => {
   fontSize.value = Number(fontSize.value) + diff
 }
 watch(fontSize, (newValue) => {
-  dataStore.draggableFields[activeFieldIndex.value].fontSize = newValue
+  dataStore.draggableFields[activeFieldIndex.value].fontSize = Number(newValue)
 })
 
-const fontWeight = ref()
-const changeFontWeight = (diff) => {
-  fontWeight.value = Number(fontWeight.value) + diff
+const lineHeight = ref()
+const changeLineHeight = (diff) => {
+  lineHeight.value = Number(lineHeight.value) + diff
 }
+watch(lineHeight, (newValue) => {
+  dataStore.draggableFields[activeFieldIndex.value].lineHeight = Number(newValue)
+})
 
 const setInitialValues = () => {
   fontSize.value = activeField.fontSize
-  fontWeight.value = activeField.fontWeight
+  lineHeight.value = activeField.lineHeight
 }
 
 watch(
@@ -62,8 +65,8 @@ watch(
     </v-text-field>
 
     <v-text-field
-      v-model="fontWeight"
-      label="Font Weight"
+      v-model="lineHeight"
+      label="Line Height"
       type="number"
       density="compact"
       dense
@@ -72,12 +75,12 @@ watch(
       hide-details
     >
       <template #prepend-inner>
-        <v-btn icon variant="plain" size="x-small" @click="changeFontWeight(-1)">
+        <v-btn icon variant="plain" size="x-small" @click="changeLineHeight(-1)">
           <v-icon>mdi-minus</v-icon>
         </v-btn>
       </template>
       <template #append-inner>
-        <v-btn icon variant="plain" size="x-small" @click="changeFontWeight(1)">
+        <v-btn icon variant="plain" size="x-small" @click="changeLineHeight(1)">
           <v-icon>mdi-plus</v-icon>
         </v-btn>
       </template>

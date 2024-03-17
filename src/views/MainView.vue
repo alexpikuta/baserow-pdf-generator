@@ -24,7 +24,14 @@ const generatePdf = () => {
         <CanvasView ref="canvas" />
       </v-col>
       <v-col cols="3">
-        <v-btn class="mb-2" color="success" size="x-large" block @click="generatePdf">
+        <v-btn
+          class="mb-2"
+          color="success"
+          size="x-large"
+          block
+          :disabled="!dataStore.selectedFields?.length"
+          @click="generatePdf"
+        >
           Generate PDF
         </v-btn>
         <FieldsView />

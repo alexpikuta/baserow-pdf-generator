@@ -27,8 +27,6 @@ const onActivated = () => {
   dataStore.setConfigurableId(props.options.id)
 }
 
-const onDeactivated = () => {}
-
 // Changing fontSize lead to changing inner block height/width
 // This may cause the block to go out of bounds
 // To prevent this, we watch for font changes and call emitUpdateField with new values if needed
@@ -82,7 +80,6 @@ onMounted(() => {
     @dragStop="onDragStop"
     @resizeStop="onResizeStop"
     @activated="onActivated"
-    @deactivated="onDeactivated"
   >
     <span ref="elementInner" class="no-select">{{ options.title }}</span>
   </vue-draggable-resizable>

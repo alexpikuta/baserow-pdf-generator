@@ -52,21 +52,20 @@ const generatePdf = async () => {
     pdfDoc.setAuthor(META_CREATOR)
 
     selectedFields.value.forEach(async (field) => {
-      const { x, y, width } = field
+      const { x, y, width, fontSize, lineHeight } = field
+      const { height } = page.getSize()
+
       const rowText = row['field_' + field.id]
 
       // Emulate htmlElement to calculate block's height and split text into rows
       const textElement = document.createElement('p')
 
       const coefficient = 0.18 // a "magic" number, seems like a bug in pdf-lib ¯\_(ツ)_/¯
-      const fontSize = 15
-      const lineHeight = fontSize * 1.2
-      const { height } = page.getSize()
 
-      textElement.style.width = width + 'px'
-      textElement.style.fontSize = fontSize + 'px'
       textElement.style.fontFamily = 'Courier'
       textElement.style.display = 'inline-block'
+      textElement.style.width = width + 'px'
+      textElement.style.fontSize = fontSize + 'px'
       textElement.style.lineHeight = lineHeight + 'px'
       textElement.textContent = rowText
 
@@ -84,12 +83,13 @@ const generatePdf = async () => {
         color: rgb(0, 0, 0)
       })
 
-      const pdfBytes = await pdfDoc.save()
-      download(pdfBytes, 'pdf.pdf')
-
       // Clear hidden block with temporary text
       hidden.value.textContent = ''
     })
+
+    const pdfBytes = await pdfDoc.save()
+
+    download(pdfBytes, `Baserow_${$cookies.get('credentials').tableId}_${row.id}.pdf`)
   })
 }
 
@@ -97,9 +97,7 @@ defineExpose({ generatePdf })
 </script>
 
 <template>
-  <div ref="hidden" class="hidden1"></div>
-  {{ selectedFields }}
-
+  <div ref="hidden" class="hidden"></div>
   <div class="canvas bg-grey-lighten-2">
     <v-responsive
       class="canvas__inner"
