@@ -15,6 +15,10 @@ export const getLines = (element) => {
   for (const word of words) {
     // If word on the same line as previous, push it there
     if (word.offsetTop === lastTop) {
+      if (!lines[lines.length - 1]) {
+        lines[0] = word.innerText
+        continue
+      }
       lines[lines.length - 1] = lines[lines.length - 1].concat(` ${word.innerText}`)
       continue
     }
