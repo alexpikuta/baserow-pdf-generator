@@ -3,7 +3,7 @@ import { ref, computed, reactive } from 'vue'
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib'
 import download from 'downloadjs'
 import { useDataStore } from '@/stores/dataStore'
-import { wrapWords, getLines } from '@/helpers'
+import { wrapWords, getLines, hexToRgb } from '@/helpers'
 import { META_APPLICATION, META_PRODUCER, META_CREATOR } from '@/helpers/constants'
 import messages from '@/helpers/messages'
 
@@ -52,7 +52,7 @@ const generatePdf = async () => {
     pdfDoc.setAuthor(META_CREATOR)
 
     selectedFields.value.forEach(async (field) => {
-      const { x, y, width, fontSize, lineHeight } = field
+      const { x, y, width, fontSize, lineHeight, color } = field
       const { height } = page.getSize()
 
       const rowText = row['field_' + field.id]
@@ -73,6 +73,7 @@ const generatePdf = async () => {
       textElement.innerHTML = wrapWords(textElement)
 
       const textLines = getLines(textElement)
+      const convertedColor = hexToRgb(color)
 
       page.drawText(textLines, {
         x,
@@ -80,7 +81,7 @@ const generatePdf = async () => {
         lineHeight: lineHeight - lineHeight * coefficient,
         size: fontSize,
         font,
-        color: rgb(0, 0, 0)
+        color: rgb(convertedColor.r, convertedColor.g, convertedColor.b)
       })
 
       // Clear hidden block with temporary text

@@ -9,5 +9,6 @@ export const defaultFieldOptions = {
   height: 'auto',
   grid: 20,
   fontSize: 14,
-  lineHeight: 16
+  lineHeight: 16,
+  color: '#202020'
 }

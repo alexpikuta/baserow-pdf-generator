@@ -29,3 +29,13 @@ export const getLines = (element) => {
 
   return lines.join('\n')
 }
+
+// Convert HEX to RGB according to pdf-lib format (unit RGB)
+export const hexToRgb = (color) => {
+  color = color.replace('#', '')
+  const r = Number((parseInt(color.substring(0, 2), 16) / 255).toFixed(2))
+  const g = Number((parseInt(color.substring(2, 4), 16) / 255).toFixed(2))
+  const b = Number((parseInt(color.substring(4, 6), 16) / 255).toFixed(2))
+
+  return { r, g, b }
+}

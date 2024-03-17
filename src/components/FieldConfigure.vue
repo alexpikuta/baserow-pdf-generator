@@ -28,6 +28,30 @@ watch(lineHeight, (newValue) => {
 const setInitialValues = () => {
   fontSize.value = activeField.fontSize
   lineHeight.value = activeField.lineHeight
+  color.value = activeField.color
+}
+
+const color = ref()
+const colorActivator = ref()
+const menu = ref(false)
+
+const buttonColorStyle = computed(() => {
+  return {
+    backgroundColor: color.value,
+    cursor: 'pointer',
+    height: '30px',
+    width: '30px',
+    borderRadius: menu.value ? '50%' : '4px',
+    transition: 'border-radius 200ms ease-in-out'
+  }
+})
+
+watch(color, (newValue) => {
+  dataStore.draggableFields[activeFieldIndex.value].color = newValue
+})
+
+const toggleMenu = () => {
+  menu.value = !menu.value
 }
 
 watch(
@@ -85,11 +109,26 @@ watch(
         </v-btn>
       </template>
     </v-text-field>
+
+    <v-text-field v-model="color" density="compact" dense hide-details>
+      <template v-slot:append>
+        <v-menu v-model="menu" :target="colorActivator" :close-on-content-click="false">
+          <template v-slot:activator>
+            <div ref="colorActivator" :style="buttonColorStyle" @click="toggleMenu" />
+          </template>
+          <v-card>
+            <v-card-text class="pa-0">
+              <v-color-picker v-model="color" :modes="['rgb']" flat />
+            </v-card-text>
+          </v-card>
+        </v-menu>
+      </template>
+    </v-text-field>
   </v-col>
 </template>
 
 <style>
 .inputs-row > div {
-  flex-grow: 0;
+  flex-grow: 1;
 }
 </style>

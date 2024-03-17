@@ -69,7 +69,8 @@ onMounted(() => {
   <vue-draggable-resizable
     ref="element"
     :style="{
-      fontSize: options.fontSize + 'px'
+      fontSize: options.fontSize + 'px',
+      color: options.color
     }"
     :parent="true"
     :x="options.x"
