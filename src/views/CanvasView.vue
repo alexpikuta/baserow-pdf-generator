@@ -13,8 +13,8 @@ const dataStore = useDataStore()
 
 const selectedFields = computed(() => dataStore.draggableFields)
 
-const updateField = (index, updatedField) => {
-  selectedFields.value.splice(index, 1, updatedField)
+const updateField = async (index, updatedField) => {
+  await dataStore.draggableFields.splice(index, 1, updatedField)
 }
 
 const snackbar = reactive({
@@ -30,7 +30,7 @@ const generatePdf = async () => {
     return
   }
 
-  if (!dataStore.rows) {
+  if (!dataStore.rows.length) {
     await dataStore.fetchRows()
   }
 

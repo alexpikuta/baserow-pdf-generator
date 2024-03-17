@@ -1,7 +1,11 @@
 <script setup>
+import { ref } from 'vue'
+import { useDataStore } from '@/stores/dataStore'
 import CanvasView from '@/views/CanvasView.vue'
 import FieldsView from '@/views/FieldsView.vue'
-import { ref } from 'vue'
+import FieldConfigure from '@/components/FieldConfigure.vue'
+
+const dataStore = useDataStore()
 
 const canvas = ref()
 
@@ -12,6 +16,9 @@ const generatePdf = () => {
 
 <template>
   <v-container>
+    <v-row>
+      <FieldConfigure v-if="dataStore.configurableId" />
+    </v-row>
     <v-row>
       <v-col>
         <CanvasView ref="canvas" />
